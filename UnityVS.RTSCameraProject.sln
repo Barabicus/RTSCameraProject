@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.RTSCameraProject.CSharp", "UnityVS.RTSCameraProject.CSharp.csproj", "{DA1A94D6-EED4-E214-8111-5E34E84262BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.RTSCameraProject.CSharp.Editor", "UnityVS.RTSCameraProject.CSharp.Editor.csproj", "{7FFDEB15-6517-9E01-9AEB-E712E8EA429D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA1A94D6-EED4-E214-8111-5E34E84262BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA1A94D6-EED4-E214-8111-5E34E84262BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA1A94D6-EED4-E214-8111-5E34E84262BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA1A94D6-EED4-E214-8111-5E34E84262BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FFDEB15-6517-9E01-9AEB-E712E8EA429D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FFDEB15-6517-9E01-9AEB-E712E8EA429D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FFDEB15-6517-9E01-9AEB-E712E8EA429D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FFDEB15-6517-9E01-9AEB-E712E8EA429D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

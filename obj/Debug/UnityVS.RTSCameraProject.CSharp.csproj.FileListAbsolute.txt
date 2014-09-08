@@ -1,0 +1,9 @@
+C:\Users\Locutus\Documents\UnityProjects\RTSCameraProject\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+C:\Users\Locutus\Documents\UnityProjects\RTSCameraProject\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+C:\Users\Locutus\Documents\UnityProjects\RTSCameraProject\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\Users\Locutus\Documents\UnityProjects\RTSCameraProject\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\Users\Locutus\Documents\UnityProjects\RTSCameraProject\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\Users\Locutus\Documents\UnityProjects\RTSCameraProject\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\Users\Locutus\Documents\UnityProjects\RTSCameraProject\obj\Debug\UnityVS.RTSCameraProject.CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Locutus\Documents\UnityProjects\RTSCameraProject\obj\Debug\Assembly-CSharp.dll
+C:\Users\Locutus\Documents\UnityProjects\RTSCameraProject\obj\Debug\Assembly-CSharp.pdb
