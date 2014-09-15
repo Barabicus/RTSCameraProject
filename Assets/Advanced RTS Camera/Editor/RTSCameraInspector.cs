@@ -120,6 +120,22 @@ public class RTSCameraInspector : Editor
 
     private SerializedProperty heightAdjustState;
 
+    private SerializedProperty followTarget;
+    private SerializedProperty followOffset;
+    private SerializedProperty shouldFollow;
+    private SerializedProperty shouldLookAt;
+    private SerializedProperty movementAdjustsOffset;
+
+    private SerializedProperty xEdgeSpeed;
+    private SerializedProperty yEdgeSpeed;
+
+    private SerializedProperty cloudDrawState;
+    private SerializedProperty cloudStartAtHeightPercent;
+    private SerializedProperty cloudFinishAtHeightPercent;
+    private SerializedProperty cloudStartAtHeight;
+    private SerializedProperty cloudFinishAtHeight;
+    private SerializedProperty cloudMaxAlpha;
+
 
 
     #endregion
@@ -206,6 +222,25 @@ public class RTSCameraInspector : Editor
         tiltAdjustSpeed = serializedObject.FindProperty("tiltAdjustSpeed");
 
         heightAdjustState = serializedObject.FindProperty("heightAdjustState");
+
+        followTarget = serializedObject.FindProperty("followTarget");
+        followOffset = serializedObject.FindProperty("followOffset");
+        shouldFollow = serializedObject.FindProperty("shouldFollow");
+        shouldLookAt = serializedObject.FindProperty("shouldLookAt");
+        movementAdjustsOffset = serializedObject.FindProperty("movementAdjustsOffset");
+
+        xEdgeSpeed = serializedObject.FindProperty("xEdgeSpeed");
+        yEdgeSpeed = serializedObject.FindProperty("yEdgeSpeed");
+
+        cloudDrawState = serializedObject.FindProperty("cloudDrawState");
+        cloudStartAtHeightPercent = serializedObject.FindProperty("cloudStartAtHeightPercent");
+        cloudFinishAtHeightPercent = serializedObject.FindProperty("cloudFinishAtHeightPercent");
+        cloudStartAtHeight = serializedObject.FindProperty("cloudStartAtHeight");
+        cloudFinishAtHeight = serializedObject.FindProperty("cloudFinishAtHeight");
+        cloudMaxAlpha = serializedObject.FindProperty("cloudMaxAlpha");
+
+
+
 
     }
 
@@ -800,23 +835,23 @@ public class RTSCameraInspector : Editor
             EditorGUI.indentLevel++;
 
             GUILayout.BeginHorizontal();
-            RTSCameraInstance.followTarget = (Transform)EditorGUILayout.ObjectField("Target To Follow", RTSCameraInstance.followTarget, typeof(Transform));
+            followTarget.objectReferenceValue = (Transform)EditorGUILayout.ObjectField(new GUIContent("Target To Follow", "The target the camera should follow"), RTSCameraInstance.followTarget, typeof(Transform));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            RTSCameraInstance.followOffset = EditorGUILayout.Vector3Field("Position Offset", RTSCameraInstance.followOffset);
+            followOffset.vector3Value = EditorGUILayout.Vector3Field(new GUIContent("Position Offset", "The positional offset from the target"), RTSCameraInstance.followOffset);
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            RTSCameraInstance.shouldFollow = EditorGUILayout.Toggle("Should Follow Target", RTSCameraInstance.shouldFollow);
+            shouldFollow.boolValue = EditorGUILayout.Toggle(new GUIContent("Should Follow Target", "If ticked the Camera will follow the target, assuming there is one"), RTSCameraInstance.shouldFollow);
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            RTSCameraInstance.shouldLookAt = EditorGUILayout.Toggle("LookAt Target", RTSCameraInstance.shouldLookAt);
+            shouldLookAt.boolValue = EditorGUILayout.Toggle(new GUIContent("LookAt Target", "If ticked the camera will attempt to look at the target. Note min and max tilt rules still apply"), RTSCameraInstance.shouldLookAt);
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            RTSCameraInstance.movementAdjustsOffset = EditorGUILayout.Toggle("Movement Adjusts Offset", RTSCameraInstance.movementAdjustsOffset);
+            movementAdjustsOffset.boolValue = EditorGUILayout.Toggle(new GUIContent("Movement Adjusts Offset", "If ticked the camera will be able to move like normal except this movement will affect the offset from the current target"), RTSCameraInstance.movementAdjustsOffset);
             GUILayout.EndHorizontal();
 
             EditorGUI.indentLevel--;
@@ -834,11 +869,11 @@ public class RTSCameraInspector : Editor
             EditorGUI.indentLevel++;
 
             GUILayout.BeginHorizontal();
-            RTSCameraInstance.xEdgeSpeed = EditorGUILayout.FloatField(new GUIContent("Scroll Speed X", "The scroll speed for when the mouse move into or past the far Left or the far Right sides of the screen. Set to 0 to disable functionality"), RTSCameraInstance.xEdgeSpeed);
+            xEdgeSpeed.floatValue = EditorGUILayout.FloatField(new GUIContent("Scroll Speed X", "The scroll speed for when the mouse move into or past the far Left or the far Right sides of the screen. Set to 0 to disable functionality"), RTSCameraInstance.xEdgeSpeed);
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            RTSCameraInstance.yEdgeSpeed = EditorGUILayout.FloatField(new GUIContent("Scroll Speed Y", "The scroll speed for when the mouse move into or past the Top or the Bottom of the screen. Set to 0 to disable functionality"), RTSCameraInstance.yEdgeSpeed);
+            yEdgeSpeed.floatValue = EditorGUILayout.FloatField(new GUIContent("Scroll Speed Y", "The scroll speed for when the mouse move into or past the Top or the Bottom of the screen. Set to 0 to disable functionality"), RTSCameraInstance.yEdgeSpeed);
             GUILayout.EndHorizontal();
 
             EditorGUI.indentLevel--;
@@ -856,34 +891,35 @@ public class RTSCameraInspector : Editor
             EditorGUI.indentLevel++;
 
             GUILayout.BeginHorizontal();
-            RTSCameraInstance.cloudDrawState = (RTSCamera.CloudDrawState)EditorGUILayout.EnumPopup(new GUIContent("Cloud Draw State", "The behaviour that decides how the clouds should be drawn. Draw At Percent will draw at a percent of the max height ( 100% equals max height). AtHeight will start and end the clouds at specific heights"), RTSCameraInstance.cloudDrawState);
+         //   RTSCameraInstance.cloudDrawState = (RTSCamera.CloudDrawState)EditorGUILayout.EnumPopup(new GUIContent("Cloud Draw State", "The behaviour that decides how the clouds should be drawn. Draw At Percent will draw at a percent of the max height ( 100% equals max height). AtHeight will start and end the clouds at specific heights"), RTSCameraInstance.cloudDrawState);
+            EditorGUILayout.PropertyField(cloudDrawState, new GUIContent("Cloud Draw State", "The behaviour that decides how the clouds should be drawn. Draw At Percent will draw at a percent of the max height ( 100% equals max height). AtHeight will start and end the clouds at specific heights"));
             GUILayout.EndHorizontal();
 
             switch (RTSCameraInstance.cloudDrawState)
             {
                 case RTSCamera.CloudDrawState.PercentOfMaxHeight:
                     GUILayout.BeginHorizontal();
-                    RTSCameraInstance.cloudStartAtHeightPercent = EditorGUILayout.FloatField(new GUIContent("Start At Percent", ""), RTSCameraInstance.cloudStartAtHeightPercent);
+                    cloudStartAtHeightPercent.floatValue = EditorGUILayout.FloatField(new GUIContent("Start At Percent", "Start drawing clouds at this percent of height"), RTSCameraInstance.cloudStartAtHeightPercent);
                     GUILayout.EndHorizontal();
 
                     GUILayout.BeginHorizontal();
-                    RTSCameraInstance.cloudFinishAtHeightPercent = Math.Min(EditorGUILayout.FloatField(new GUIContent("Finish At Percent", ""), RTSCameraInstance.cloudFinishAtHeightPercent), 100f);
+                    cloudFinishAtHeightPercent.floatValue = Math.Min(EditorGUILayout.FloatField(new GUIContent("Finish At Percent", "Finish drawing clouds at this percent of height. Note the finished alpha will be the alpha value specified in the Cloud Max Transparency value"), RTSCameraInstance.cloudFinishAtHeightPercent), 100f);
                     GUILayout.EndHorizontal();
 
                     break;
                 case RTSCamera.CloudDrawState.AtHeight:
                     GUILayout.BeginHorizontal();
-                    RTSCameraInstance.cloudStartAtHeight = EditorGUILayout.FloatField(new GUIContent("Start At Height", ""), RTSCameraInstance.cloudStartAtHeight);
+                    cloudStartAtHeight.floatValue = EditorGUILayout.FloatField(new GUIContent("Start At Height", "Start drawing clouds at this height"), RTSCameraInstance.cloudStartAtHeight);
                     GUILayout.EndHorizontal();
 
                     GUILayout.BeginHorizontal();
-                    RTSCameraInstance.cloudFinishAtHeight = Mathf.Min(EditorGUILayout.FloatField(new GUIContent("Finish At Height", ""), RTSCameraInstance.cloudFinishAtHeight), RTSCameraInstance.maxHeight);
+                    cloudFinishAtHeight.floatValue = Mathf.Min(EditorGUILayout.FloatField(new GUIContent("Finish At Height", "Finish drawing clouds at this height. Note the finished alpha will be the alpha value specified in the Cloud Max Transparency value"), RTSCameraInstance.cloudFinishAtHeight), RTSCameraInstance.maxHeight);
                     GUILayout.EndHorizontal();
                     break;
             }
 
             GUILayout.BeginHorizontal();
-            RTSCameraInstance.cloudMaxAlpha = Mathf.Clamp(EditorGUILayout.FloatField(new GUIContent("Cloud Max Transparency", "The transparency of the cloud when it reaches the maximum height. Value should be between 0 and 1. Note the transparency will interperlate the transparency from 0 to this number starting at the minimum point and ending at the maximum point."), RTSCameraInstance.cloudMaxAlpha), 0, 1);
+            cloudMaxAlpha.floatValue = Mathf.Clamp(EditorGUILayout.FloatField(new GUIContent("Cloud Max Transparency", "The transparency of the cloud when it reaches the maximum height. Value should be between 0 and 1. Note the transparency will interperlate the transparency from 0 to this number starting at the minimum point and ending at the maximum point."), RTSCameraInstance.cloudMaxAlpha), 0, 1);
             GUILayout.EndHorizontal();
 
 
