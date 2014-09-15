@@ -38,8 +38,8 @@ public class RTSCamera : MonoBehaviour
     // Control Setup
     public ControlSetup verticalSetup = ControlSetup.Axis;
     public ControlSetup horizontalSetup = ControlSetup.Axis;
-    public ControlSetup rotateYSetup = ControlSetup.KeyCode;
-    public ControlSetup rotateXSetup = ControlSetup.KeyCode;
+    public ControlSetup rotateSetup = ControlSetup.KeyCode;
+    public ControlSetup tiltSetup = ControlSetup.KeyCode;
     public ControlSetup directionSetup = ControlSetup.Axis;
     public ControlSetup orbitSetup = ControlSetup.Axis;
     public MiddleMouseSetup mouseXSetup = MiddleMouseSetup.Rotate;
@@ -361,8 +361,8 @@ public class RTSCamera : MonoBehaviour
         else
             _currentTilt = _targetTilt;
 
-        // Change the tilt and consider if any auto adjusting states should modify the current rotation.
-        if (autoAdjustState == AutoAdjustState.DistanceToGround && currentDistance <= distanceFromGroundStartAdjust)
+        // Change the tilt based on the auto adjusting state and camera position
+        if (autoAdjustState == AutoAdjustState.DistanceToGround && currentDistance <= distanceFromGroundStartAdjust && hit.collider != null)
         {
             _currentTilt = Mathf.Lerp(terrainAdjustTilt, _targetTilt, groundHeightTiltAdjustCurve.Evaluate(GetPercent(distanceFromGroundFinishAdjust, distanceFromGroundStartAdjust, currentDistance) / 100));
 
@@ -391,8 +391,8 @@ public class RTSCamera : MonoBehaviour
     {
         if (Input.GetMouseButton(2))
         {
-            MoveMouseHeld(mouseXSetup, Input.GetAxis(mouseXAxis) * (invertMouseX ? -1 : 1) , hit);
-            MoveMouseHeld(mouseYSetup, Input.GetAxis(mouseYAxis) * (invertMouseY ? -1 : 1) , hit);
+            MoveMouseHeld(mouseXSetup, Input.GetAxis(mouseXAxis) * (invertMouseX ? -1 : 1), hit);
+            MoveMouseHeld(mouseYSetup, Input.GetAxis(mouseYAxis) * (invertMouseY ? -1 : 1), hit);
         }
 
     }
@@ -464,7 +464,10 @@ public class RTSCamera : MonoBehaviour
     {
         Vector3 moveAmount = Quaternion.Euler(0, transform.localEulerAngles.y, transform.localEulerAngles.z) * Vector3.Scale(directionToMove, directionMultiplier) * direction * CameraDeltaTime;
 
-        CameraTargetPosition += moveAmount;
+        // CHANGE TO ACCOUNT FOR DIFFERENCES
+        Vector3 moveTest = CameraTargetPosition + moveAmount;
+        if (moveTest.y > minHeightDistance && moveTest.y < maxHeight)
+            CameraTargetPosition += moveAmount;
 
         //Clamp the new position to the minimum height distance above the ground
         CameraTargetPosition = new Vector3(CameraTargetPosition.x, Mathf.Clamp(CameraTargetPosition.y, hit.point.y + minHeightDistance, maxHeight), CameraTargetPosition.z);
@@ -496,7 +499,7 @@ public class RTSCamera : MonoBehaviour
     {
         if (followTarget != null)
         {
-          // CameraTargetPosition += transform.rotation * (Vector3.right * speed);
+            // CameraTargetPosition += transform.rotation * (Vector3.right * speed);
             CameraTargetPosition = RotateAroundPoint(CameraTargetPosition, followTarget.position, Vector3.up, speed * CameraDeltaTime);
         }
     }
@@ -565,10 +568,10 @@ public class RTSCamera : MonoBehaviour
 
     private void RotateInput()
     {
-        switch (rotateYSetup)
+        switch (rotateSetup)
         {
             case ControlSetup.Axis:
-                MoveRotate(Input.GetAxis(rotateAxis));
+                MoveRotate(Input.GetAxis(rotateAxis) * rotateSpeed);
                 break;
             case ControlSetup.KeyCode:
                 if (Input.GetKey(rotateLeftKey))
@@ -596,7 +599,7 @@ public class RTSCamera : MonoBehaviour
     private void TiltInput()
     {
         // Adjust the target tilt based on user input
-        switch (rotateXSetup)
+        switch (tiltSetup)
         {
             case ControlSetup.Axis:
                 MoveTilt(Input.GetAxis(tiltAxis));

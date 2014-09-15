@@ -48,9 +48,10 @@
   <ItemGroup>
      <Compile Include="Assets\Advanced RTS Camera\Demo\Scripts\MoveRandomly.cs" />
      <Compile Include="Assets\Advanced RTS Camera\Scripts\RTSCamera.cs" />
-     <Compile Include="Assets\CameraDebug.cs" />
-     <Compile Include="Assets\DemoControl.cs" />
-     <Compile Include="Assets\DemoDisplay.cs" />
+     <Compile Include="Assets\Tests\Scripts\CameraDebug.cs" />
+     <Compile Include="Assets\Tests\Scripts\DemoControl.cs" />
+     <Compile Include="Assets\Tests\Scripts\DemoDisplay.cs" />
+     <Compile Include="Assets\Tests\Scripts\DirectionTest.cs" />
      <Compile Include="Assets\Tests\Scripts\OrbitTest.cs" />
      <Compile Include="Assets\Tests\Scripts\SmoothMove.cs" />
      <None Include="Assets\Advanced RTS Camera\Documentation\README.txt" />

@@ -21,7 +21,7 @@ Introduction:
 		-Cloud overlay
 
 Features:
-	-Controls
+	----Controls
 		The controls have been designed so that you can easily specify if you want to use a custom axis or specify keycodes. For the Vertical, Horizontal, Tilt,
 		Rotate and Directional controls you can use either a "Axis" setup or a "KeyCode" setup. Using the axis setup you will be prompted to enter the name
 		of your axis for example for the Vertical Axis uses "Vertical" by default. "Vertical" is a default unity input relating to the W & S keys. If you do
@@ -56,7 +56,7 @@ Features:
 			the camera with the mouse. For ease of access you can invert the inputs via the "Invert Mouse X and Invert Mouse Y" toggles. Note by default the Mouse X
 			axis responds to input by the mouse moving left and right while Mouse Y responds to input of the mouse moving backward and forward.
 
-		-Behaviours
+	----Behaviours
 			Behaviours control certain aspects about how the camera should behave depending on certain variables.
 
 			-Tilt Auto Adjust
@@ -123,7 +123,7 @@ Features:
 					Rather than specifying a percent to start drawing the clouds you can specify specific heights. This acts just like Percent of Max Height except
 					the two numbers do not relate to a percent of the MaxHeight, they relate to the y position of the camera instead.
 
-	-Camera Configuration
+	----Camera Configuration
 		This section just contains general variables relating to the camera.
 
 			-Movement Speed
