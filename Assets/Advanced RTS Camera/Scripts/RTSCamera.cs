@@ -55,7 +55,7 @@ public class RTSCamera : MonoBehaviour
     public float movementSpeed = 90f;
     public float rotateSpeed = 180.0f;
     public float minHeightDistance = 5f;
-    public float maxHeight = 250f;
+    public float maxHeightDistance = 250f;
     public float tiltMaxHeight = 10f;
     public float lowTilt = 15f;
     public float highTilt = 60f;
@@ -241,7 +241,7 @@ public class RTSCamera : MonoBehaviour
 
 
         RaycastHit hit;
-        bool rayHit = Physics.Raycast(new Ray(new Vector3(transform.position.x, maxHeight, transform.position.z), -Vector3.up), out hit, Mathf.Infinity, 1 << groundMask.value);
+        bool rayHit = Physics.Raycast(new Ray(new Vector3(transform.position.x, maxHeightDistance, transform.position.z), -Vector3.up), out hit, Mathf.Infinity, 1 << groundMask.value);
 
         MouseHeldInput(hit);
 
@@ -299,25 +299,25 @@ public class RTSCamera : MonoBehaviour
     }
 
     /// <summary>
-    /// Actually adjust the Camera position in the world
+    /// Adjust the Camera position in the world
     /// </summary>
     /// <param name="distance"></param>
     /// <param name="hit"></param>
     private void AdjustPosition(RaycastHit hit)
     {
+        // For use with Preserve height, this is the offset from the ground position to adjust the camera
         float groundHeightOffset = 0.0f;
-        float newDistance = _newPosition.y - hit.point.y;
+        float distanceFromGround = _newPosition.y - hit.point.y;
 
-        if (newDistance < minHeightDistance)
+        if (distanceFromGround < minHeightDistance)
         {
             switch (heightAdjustState)
             {
                 case HeightAdjustState.ChangeHeight:
-                    if (!shouldFollow)
-                        _newPosition = new Vector3(_newPosition.x, Mathf.Clamp(_newPosition.y, hit.point.y + minHeightDistance, maxHeight), _newPosition.z);
+                        _newPosition = new Vector3(_newPosition.x, Mathf.Clamp(_newPosition.y, hit.point.y + minHeightDistance, maxHeightDistance), _newPosition.z);
                     break;
                 case HeightAdjustState.PreserveHeight:
-                    groundHeightOffset = minHeightDistance - newDistance;
+                    groundHeightOffset = minHeightDistance - distanceFromGround;
                     break;
             }
         }
@@ -325,11 +325,10 @@ public class RTSCamera : MonoBehaviour
         // Adjust the transform position taking into account whether it should be smoothed or instantly adjusted
         if (smoothPosition)
         {
-            //transform.position = Vector3.Lerp(transform.position, new Vector3(_newPosition.x, _newPosition.y + groundHeightOffset, _newPosition.z), movementAdjustSpeed * CameraDeltaTime);
-
             transform.position = Vector3.SmoothDamp(transform.position, new Vector3(_newPosition.x, _newPosition.y + groundHeightOffset, _newPosition.z), ref moveVel, movementAdjustSpeed, Mathf.Infinity, CameraDeltaTime);
         }
         else
+            // Don't smooth and adjust it instantly
             transform.position = new Vector3(_newPosition.x, _newPosition.y + groundHeightOffset, _newPosition.z);
     }
     private void FollowCameraTarget()
@@ -464,15 +463,35 @@ public class RTSCamera : MonoBehaviour
     {
         Vector3 moveAmount = Quaternion.Euler(0, transform.localEulerAngles.y, transform.localEulerAngles.z) * Vector3.Scale(directionToMove, directionMultiplier) * direction * CameraDeltaTime;
 
-        // CHANGE TO ACCOUNT FOR DIFFERENCES
+        // The current minimum point that the camera is over
+        float minPoint = hit.point.y + minHeightDistance;
+
         Vector3 moveTest = CameraTargetPosition + moveAmount;
-        if (moveTest.y > minHeightDistance && moveTest.y < maxHeight)
-            CameraTargetPosition += moveAmount;
 
-        //Clamp the new position to the minimum height distance above the ground
-        CameraTargetPosition = new Vector3(CameraTargetPosition.x, Mathf.Clamp(CameraTargetPosition.y, hit.point.y + minHeightDistance, maxHeight), CameraTargetPosition.z);
+        CameraTargetPosition += moveAmount;
 
 
+        // If the movement amount brings the target position outside the bounds of the min or max height,
+        // adjust the move amount to bring it exactly on par with either the min or max height.
+        // This means scaling the move vector to adjust to the proper movement difference.
+       // if (moveTest.y < minPoint || moveTest.y > maxHeight)
+       // {
+       //     float positionDifference;
+       //     if (moveTest.y < minPoint)
+       //         positionDifference = CameraTargetPosition.y - minPoint;
+       //     else
+       //         positionDifference = maxHeight - CameraTargetPosition.y;
+
+       //     float percentDifference = Mathf.Abs(GetPercent(positionDifference, moveAmount.y)) / 100f;
+
+       ////     Debug.Log("CameraPosition: " + CameraTargetPosition.y + " Move Test: " + moveTest + " MoveAmount: " + moveAmount.y + " PosDiff: " + positionDifference + " PercentDiff:  " + percentDifference + " Rollback: " + (moveAmount * percentDifference) + " Check: " + moveTest);
+
+       //     moveTest = CameraTargetPosition + (moveAmount * percentDifference);
+
+       // }
+
+        //Clamp the target Position
+    //    moveTest = new Vector3(moveTest.x, Mathf.Clamp(, moveTest.z);
     }
 
     #endregion
@@ -633,8 +652,8 @@ public class RTSCamera : MonoBehaviour
         switch (cloudDrawState)
         {
             case CloudDrawState.PercentOfMaxHeight:
-                min = transform.position.y - PercentToNumber(cloudStartAtHeightPercent, maxHeight);
-                max = PercentToNumber(cloudFinishAtHeightPercent, maxHeight) - PercentToNumber(cloudStartAtHeightPercent, maxHeight);
+                min = transform.position.y - PercentToNumber(cloudStartAtHeightPercent, maxHeightDistance);
+                max = PercentToNumber(cloudFinishAtHeightPercent, maxHeightDistance) - PercentToNumber(cloudStartAtHeightPercent, maxHeightDistance);
                 break;
             case CloudDrawState.AtHeight:
                 min = transform.position.y - cloudStartAtHeight;
@@ -689,8 +708,8 @@ public class RTSCamera : MonoBehaviour
 
     void GetCloudStartToCloudEndMinMax(out float min, out float max)
     {
-        min = transform.position.y - PercentToNumber(cloudStartAtHeightPercent, maxHeight);
-        max = maxHeight - PercentToNumber(cloudStartAtHeightPercent, maxHeight);
+        min = transform.position.y - PercentToNumber(cloudStartAtHeightPercent, maxHeightDistance);
+        max = maxHeightDistance - PercentToNumber(cloudStartAtHeightPercent, maxHeightDistance);
     }
 
     #endregion

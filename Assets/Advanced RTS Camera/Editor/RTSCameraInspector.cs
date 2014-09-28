@@ -157,7 +157,7 @@ public class RTSCameraInspector : Editor
         minTilt = serializedObject.FindProperty("lowTilt");
         maxTilt = serializedObject.FindProperty("highTilt");
         minHeight = serializedObject.FindProperty("minHeightDistance");
-        maxHeight = serializedObject.FindProperty("maxHeight");
+        maxHeight = serializedObject.FindProperty("maxHeightDistance");
         delaTimeIgnoresTimeScale = serializedObject.FindProperty("useDeltaTimeToOne");
         groundLayer = serializedObject.FindProperty("groundMask");
 
@@ -238,10 +238,6 @@ public class RTSCameraInspector : Editor
         cloudStartAtHeight = serializedObject.FindProperty("cloudStartAtHeight");
         cloudFinishAtHeight = serializedObject.FindProperty("cloudFinishAtHeight");
         cloudMaxAlpha = serializedObject.FindProperty("cloudMaxAlpha");
-
-
-
-
     }
 
 
@@ -682,7 +678,7 @@ public class RTSCameraInspector : Editor
 
             GUILayout.BeginHorizontal();
           //  RTSCameraInstance.resetKey = (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Reset Key", "When this key is pressed all of the Camera's values will reset to the initial Camera's setup. This only includes Camera Configuration variables an not behavioural or control variables"), RTSCameraInstance.resetKey);
-            EditorGUILayout.PropertyField(resetKey, new GUIContent("Reset Key", "When this key is pressed all of the Camera's values will reset to the initial Camera's setup. This only includes Camera Configuration variables an not behavioural or control variables"));
+            EditorGUILayout.PropertyField(resetKey, new GUIContent("Reset Key", "When this key is pressed all of the Camera's configuration values will reset to the initial Camera's setup."));
             GUILayout.EndHorizontal();
 
             EditorGUI.indentLevel--;
@@ -913,7 +909,7 @@ public class RTSCameraInspector : Editor
                     GUILayout.EndHorizontal();
 
                     GUILayout.BeginHorizontal();
-                    cloudFinishAtHeight.floatValue = Mathf.Min(EditorGUILayout.FloatField(new GUIContent("Finish At Height", "Finish drawing clouds at this height. Note the finished alpha will be the alpha value specified in the Cloud Max Transparency value"), RTSCameraInstance.cloudFinishAtHeight), RTSCameraInstance.maxHeight);
+                    cloudFinishAtHeight.floatValue = Mathf.Min(EditorGUILayout.FloatField(new GUIContent("Finish At Height", "Finish drawing clouds at this height. Note the finished alpha will be the alpha value specified in the Cloud Max Transparency value"), RTSCameraInstance.cloudFinishAtHeight), RTSCameraInstance.maxHeightDistance);
                     GUILayout.EndHorizontal();
                     break;
             }

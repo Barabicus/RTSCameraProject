@@ -90,8 +90,8 @@ Features:
 					to the new high position when it moves over a higher point.
 
 		-Follow Transform
-			By providing the value labeled "Target To Follow" a transform you can follow and look at that target. You must first toggle to appropriate options for
-			this to occur however. Simply providing a target will not actually do anything if no options are ticked.
+			Assigning "Target To follow" a transform you can follow and look at that target. You must first toggle the appropriate options for
+			this to occur. Simply providing a target will not actually do anything if no options are ticked.
 				-Should Follow Target
 					If a target is specified, the camera will attempt to follow it. The camera will be placed at the targets position plus the offset from the target
 					specified via "Target Offset".
