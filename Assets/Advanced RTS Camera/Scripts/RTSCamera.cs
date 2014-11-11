@@ -314,7 +314,7 @@ public class RTSCamera : MonoBehaviour
             switch (heightAdjustState)
             {
                 case HeightAdjustState.ChangeHeight:
-                        _newPosition = new Vector3(_newPosition.x, Mathf.Clamp(_newPosition.y, hit.point.y + minHeightDistance, maxHeightDistance), _newPosition.z);
+                    _newPosition = new Vector3(_newPosition.x, Mathf.Clamp(_newPosition.y, hit.point.y + minHeightDistance, maxHeightDistance), _newPosition.z);
                     break;
                 case HeightAdjustState.PreserveHeight:
                     groundHeightOffset = minHeightDistance - distanceFromGround;
@@ -468,30 +468,26 @@ public class RTSCamera : MonoBehaviour
 
         Vector3 moveTest = CameraTargetPosition + moveAmount;
 
-        CameraTargetPosition += moveAmount;
-
-
         // If the movement amount brings the target position outside the bounds of the min or max height,
         // adjust the move amount to bring it exactly on par with either the min or max height.
         // This means scaling the move vector to adjust to the proper movement difference.
-       // if (moveTest.y < minPoint || moveTest.y > maxHeight)
-       // {
-       //     float positionDifference;
-       //     if (moveTest.y < minPoint)
-       //         positionDifference = CameraTargetPosition.y - minPoint;
-       //     else
-       //         positionDifference = maxHeight - CameraTargetPosition.y;
+        if (moveTest.y < minPoint || moveTest.y > maxHeightDistance)
+        {
+            float positionDifference;
+            if (moveTest.y < minPoint)
+                positionDifference = CameraTargetPosition.y - minPoint;
+            else
+                positionDifference = maxHeightDistance - CameraTargetPosition.y;
 
-       //     float percentDifference = Mathf.Abs(GetPercent(positionDifference, moveAmount.y)) / 100f;
+            float percentDifference = Mathf.Abs(GetPercent(positionDifference, moveAmount.y)) / 100f;
 
-       ////     Debug.Log("CameraPosition: " + CameraTargetPosition.y + " Move Test: " + moveTest + " MoveAmount: " + moveAmount.y + " PosDiff: " + positionDifference + " PercentDiff:  " + percentDifference + " Rollback: " + (moveAmount * percentDifference) + " Check: " + moveTest);
+            moveTest = CameraTargetPosition + (moveAmount * percentDifference);
+            moveTest = new Vector3(moveTest.x, Mathf.Clamp(moveTest.y, minPoint, maxHeightDistance), moveTest.z);
+        }
 
-       //     moveTest = CameraTargetPosition + (moveAmount * percentDifference);
-
-       // }
+        CameraTargetPosition = moveTest;
 
         //Clamp the target Position
-    //    moveTest = new Vector3(moveTest.x, Mathf.Clamp(, moveTest.z);
     }
 
     #endregion

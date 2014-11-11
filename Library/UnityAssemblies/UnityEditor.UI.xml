@@ -4,6 +4,9 @@
 		<name>UnityEditor.UI</name>
 	</assembly>
 	<members>
+		<member name="T:UnityEditor.DrivenRectTransformUndo">
+			<summary></summary>
+		</member>
 		<member name="T:UnityEditor.UI.TextEditor">
 			<summary></summary>
 		</member>

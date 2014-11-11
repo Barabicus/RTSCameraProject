@@ -31,6 +31,7 @@ public class RTSCameraInspector : Editor
     private bool tiltContFoldout = false;
     private bool directionalContFoldout = false;
     private bool middleMouseContFoldout = false;
+    private bool mouseContFoldout = false;
     #endregion
 
     #region Camera Config Foldout
@@ -661,6 +662,19 @@ public class RTSCameraInspector : Editor
            // RTSCameraInstance.mouseYSetup = (RTSCamera.MiddleMouseSetup)EditorGUILayout.EnumPopup(new GUIContent("Mouse Y Controls", "What type of movement should the Y axis of the mouse control"), RTSCameraInstance.mouseYSetup);
             EditorGUILayout.PropertyField(mouseYSetup, new GUIContent("Mouse Y Controls", "What type of movement should the Y axis of the mouse control"));
             GUILayout.EndHorizontal();
+
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        #endregion
+
+        #region Middle Mouse Control
+        EditorGUILayout.BeginVertical("box");
+
+        mouseContFoldout = GUILayout.Toggle(mouseContFoldout, new GUIContent("Mouse Controls", "Configure what movements should be executed while the left or right mouse buttons are held"), EditorStyles.foldout);
+        if (mouseContFoldout)
+        {
+            EditorGUI.indentLevel++;
 
             EditorGUI.indentLevel--;
         }
