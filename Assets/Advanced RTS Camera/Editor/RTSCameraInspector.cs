@@ -31,6 +31,7 @@ public class RTSCameraInspector : Editor
     private bool tiltContFoldout = false;
     private bool directionalContFoldout = false;
     private bool middleMouseContFoldout = false;
+    private bool miscContFoldout = false;
     private bool mouseContFoldout = false;
     #endregion
 
@@ -270,6 +271,7 @@ public class RTSCameraInspector : Editor
             verticalContFoldout = true;
             directionalContFoldout = true;
             middleMouseContFoldout = true;
+            miscContFoldout = true;
         }
         if (GUILayout.Button("[-]", smallButtonStyle))
         {
@@ -281,6 +283,7 @@ public class RTSCameraInspector : Editor
             verticalContFoldout = false;
             directionalContFoldout = false;
             middleMouseContFoldout = false;
+            miscContFoldout = false;
         }
 
         EditorGUILayout.EndHorizontal();
@@ -684,8 +687,8 @@ public class RTSCameraInspector : Editor
         #region Misc Controls
         EditorGUILayout.BeginVertical("box");
 
-        middleMouseContFoldout = GUILayout.Toggle(middleMouseContFoldout, new GUIContent("Misc Controls", "Miscellaneous controls for the camera."), EditorStyles.foldout);
-        if (middleMouseContFoldout)
+        miscContFoldout = GUILayout.Toggle(miscContFoldout, new GUIContent("Misc Controls", "Miscellaneous controls for the camera."), EditorStyles.foldout);
+        if (miscContFoldout)
         {
             EditorGUI.indentLevel++;
 
@@ -777,7 +780,7 @@ public class RTSCameraInspector : Editor
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            movementAdjustSpeed.floatValue = EditorGUILayout.FloatField("Movement Adjust Speed", RTSCameraInstance.movementAdjustSpeed);
+            movementAdjustSpeed.floatValue = EditorGUILayout.FloatField("Movement Adjust Time", RTSCameraInstance.movementAdjustSpeed);
             GUILayout.EndHorizontal();
 
 
@@ -792,7 +795,7 @@ public class RTSCameraInspector : Editor
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            rotateAdjustSpeed.floatValue = EditorGUILayout.FloatField("Rotate Adjust Speed", RTSCameraInstance.rotateAdjustSpeed);
+            rotateAdjustSpeed.floatValue = EditorGUILayout.FloatField("Rotate Adjust Time", RTSCameraInstance.rotateAdjustSpeed);
             GUILayout.EndHorizontal();
 
             #endregion
@@ -806,7 +809,7 @@ public class RTSCameraInspector : Editor
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            tiltAdjustSpeed.floatValue = EditorGUILayout.FloatField("Tilt Adjust Speed", RTSCameraInstance.tiltAdjustSpeed);
+            tiltAdjustSpeed.floatValue = EditorGUILayout.FloatField("Tilt Adjust Time", RTSCameraInstance.tiltAdjustSpeed);
             GUILayout.EndHorizontal();
 
             #endregion

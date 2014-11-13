@@ -41,7 +41,7 @@ public class RTSCamera : MonoBehaviour
     public ControlSetup rotateSetup = ControlSetup.KeyCode;
     public ControlSetup tiltSetup = ControlSetup.KeyCode;
     public ControlSetup directionSetup = ControlSetup.Axis;
-    public ControlSetup orbitSetup = ControlSetup.Axis;
+    public ControlSetup orbitSetup = ControlSetup.Disabled;
     public MiddleMouseSetup mouseXSetup = MiddleMouseSetup.Rotate;
     public MiddleMouseSetup mouseYSetup = MiddleMouseSetup.Tilt;
 
@@ -64,7 +64,7 @@ public class RTSCamera : MonoBehaviour
     public LayerMask groundMask = 0;
 
     // Behaviour Variables
-    public AutoAdjustState autoAdjustState = AutoAdjustState.DistanceToGround;
+    public AutoAdjustState autoAdjustState = AutoAdjustState.Disabled;
     public bool adjustTiltWhenHit = true;
     public float distanceFromGroundFinishAdjust = 20f;
     public float distanceFromGroundStartAdjust = 50f;
@@ -75,17 +75,17 @@ public class RTSCamera : MonoBehaviour
     public bool smoothPosition = true;
     public bool smoothTilt = true;
     public bool smoothRotate = true;
-    public float movementAdjustSpeed = 5.0f;
-    public float tiltAdjustSpeed = 5.0f;
-    public float rotateAdjustSpeed = 5.0f;
+    public float movementAdjustSpeed = 0.25f;
+    public float tiltAdjustSpeed = 0.25f;
+    public float rotateAdjustSpeed = 0.25f;
     public HeightAdjustState heightAdjustState = HeightAdjustState.ChangeHeight;
     public Transform followTarget;
     public Vector3 followOffset = new Vector3(0, 15, 0);
     public bool shouldFollow = false;
     public bool shouldLookAt = false;
     public bool movementAdjustsOffset = true;
-    public float xEdgeSpeed = 25f;
-    public float yEdgeSpeed = 25f;
+    public float xEdgeSpeed = 0f;
+    public float yEdgeSpeed = 0f;
     public CloudDrawState cloudDrawState = CloudDrawState.PercentOfMaxHeight;
     public float terrainAdjustTilt = 0.0f;
 
@@ -93,6 +93,7 @@ public class RTSCamera : MonoBehaviour
     // Vel
     private Vector3 moveVel;
     private float tiltVel;
+    private float rotateVel;
 
     // Reset Variables
     private float _resetTilt;
@@ -379,7 +380,10 @@ public class RTSCamera : MonoBehaviour
     private void AdjustRotation()
     {
         if (smoothRotate)
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(_currentTilt, _newRotation.eulerAngles.y, _newRotation.eulerAngles.z), rotateAdjustSpeed * CameraDeltaTime);
+        {
+            float smoothRot = Mathf.SmoothDampAngle(transform.eulerAngles.y, _newRotation.eulerAngles.y, ref rotateVel, rotateAdjustSpeed, Mathf.Infinity, CameraDeltaTime);
+            transform.rotation = Quaternion.Euler(_currentTilt, smoothRot, _newRotation.eulerAngles.z);
+        }
         else
             transform.rotation = Quaternion.Euler(_currentTilt, _newRotation.eulerAngles.y, _newRotation.eulerAngles.z);
     }
