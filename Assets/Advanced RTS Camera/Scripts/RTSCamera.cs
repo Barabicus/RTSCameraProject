@@ -246,15 +246,6 @@ public class RTSCamera : MonoBehaviour
 
         MouseHeldInput(hit);
 
-        if (!shouldLookAt)
-        {
-            TiltInput();
-
-            RotateInput();
-        }
-        else
-            LookAtCamTarget();
-
         if (!shouldFollow || (shouldFollow && movementAdjustsOffset))
         {
             // Apply Mouse Movement
@@ -276,6 +267,16 @@ public class RTSCamera : MonoBehaviour
         AdjustPosition(hit);
         if (!shouldLookAt)
             AdjustTilt(hit);
+
+        if (!shouldLookAt)
+        {
+            TiltInput();
+
+            RotateInput();
+        }
+        else
+            LookAtCamTarget();
+
         AdjustRotation();
 
     }
@@ -518,8 +519,8 @@ public class RTSCamera : MonoBehaviour
     {
         if (followTarget != null)
         {
-            // CameraTargetPosition += transform.rotation * (Vector3.right * speed);
-            CameraTargetPosition = RotateAroundPoint(CameraTargetPosition, followTarget.position, Vector3.up, speed * CameraDeltaTime);
+            Vector3 offset = shouldFollow ? followTarget.transform.position : Vector3.zero;
+            CameraTargetPosition = RotateAroundPoint(offset + CameraTargetPosition, followTarget.position, Vector3.up, speed * CameraDeltaTime) - offset;
         }
     }
 

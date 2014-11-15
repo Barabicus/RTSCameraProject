@@ -855,6 +855,12 @@ public class RTSCameraInspector : Editor
             followOffset.vector3Value = EditorGUILayout.Vector3Field(new GUIContent("Position Offset", "The positional offset from the target"), RTSCameraInstance.followOffset);
             GUILayout.EndHorizontal();
 
+           if (GUILayout.Button(new GUIContent("Set Current Offset", "Sets the offset to the camera's current position")))
+            {
+
+                followOffset.vector3Value = (RTSCameraInstance.transform.position - RTSCameraInstance.followTarget.position);
+           }
+
             GUILayout.BeginHorizontal();
             shouldFollow.boolValue = EditorGUILayout.Toggle(new GUIContent("Should Follow Target", "If ticked the Camera will follow the target, assuming there is one"), RTSCameraInstance.shouldFollow);
             GUILayout.EndHorizontal();
