@@ -46,6 +46,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Advanced RTS Camera\Demo\GUI\Scripts\DemoCamera.cs" />
+     <Compile Include="Assets\Advanced RTS Camera\Demo\GUI\Scripts\ExpandWindow.cs" />
+     <Compile Include="Assets\Advanced RTS Camera\Demo\GUI\Scripts\GUIVector3.cs" />
      <Compile Include="Assets\Advanced RTS Camera\Demo\Scripts\MoveRandomly.cs" />
      <Compile Include="Assets\Advanced RTS Camera\Demo\Scripts\NavMeshMoveRandomly.cs" />
      <Compile Include="Assets\Advanced RTS Camera\Scripts\RTSCamera.cs" />
