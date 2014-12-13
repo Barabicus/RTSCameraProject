@@ -70,13 +70,13 @@ public class DemoCamera : MonoBehaviour {
     public void SetDirectionX()
     {
 
-        float x = Mathf.Clamp(int.Parse(directionInps[0].value), -1, 1);
-        float y = Mathf.Clamp(int.Parse(directionInps[1].value), -1, 1);
-        float z = Mathf.Clamp(int.Parse(directionInps[2].value), -1, 1);
+        float x = Mathf.Clamp(int.Parse(directionInps[0].text), -1, 1);
+        float y = Mathf.Clamp(int.Parse(directionInps[1].text), -1, 1);
+        float z = Mathf.Clamp(int.Parse(directionInps[2].text), -1, 1);
 
-        directionInps[0].value = x.ToString();
-        directionInps[1].value = y.ToString();
-        directionInps[2].value = z.ToString();
+        directionInps[0].text = x.ToString();
+        directionInps[1].text = y.ToString();
+        directionInps[2].text = z.ToString();
 
 
         rtsCamera.directionToMove = new Vector3(x,y,z);

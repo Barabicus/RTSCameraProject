@@ -10,6 +10,16 @@ public class GUIVector3 : MonoBehaviour {
 
     public void ValidateVector()
     {
+        float x, y, z;
+        if (!float.TryParse(vectorInputs[0].text, out x))
+            x = 0f;
+
+        Debug.Log("valdated " + x);
+    }
+
+    public void ValidateVector(InputField inpField)
+    {
+
     }
 
 

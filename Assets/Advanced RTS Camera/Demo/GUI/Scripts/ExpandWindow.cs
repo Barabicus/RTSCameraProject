@@ -9,6 +9,7 @@ public class ExpandWindow : MonoBehaviour
 
     public RectTransform body;
     public RectTransform title;
+    public float speed = 2f;
 
 
     public ExpandWindow CurrentWindow
@@ -53,6 +54,7 @@ public class ExpandWindow : MonoBehaviour
     {
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, title.rect.size.y);
     }
+
 
 
 }
