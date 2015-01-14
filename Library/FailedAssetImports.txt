@@ -1,0 +1,2 @@
+Assets/Advanced RTS Camera/Prototyping/Materials/NavySmooth.mat
+Assets/Advanced RTS Camera/Prototyping/Materials/YellowSmooth.mat

@@ -21,5 +21,12 @@ namespace RTSTests {
 
         }
 
+        [Test]
+        public void DecimalTest()
+        {
+            string theD = "24.2";
+            Debug.Log(decimal.Parse(theD) + " : " + float.Parse(theD));
+        }
+
     }
 }
